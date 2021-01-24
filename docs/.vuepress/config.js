@@ -1,6 +1,6 @@
 module.exports = {
   title: '知鱼之乐@Android',
-  description: 'Just playing around',
+  description: 'Just playing around 1',
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
