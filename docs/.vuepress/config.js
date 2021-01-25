@@ -24,7 +24,8 @@ module.exports = {
         path: '/Tools/',      // 可选的, 应该是一个绝对路径
         collapsable: false, // 可选的, 默认值是 true,
         children: [
-            '/Tools/Mac开发快捷键大全.md'
+            '/Tools/1.Mac开发快捷键大全.md',
+            '/Tools/2.翻墙工具指南.md',
         ]
       },
     ] 
