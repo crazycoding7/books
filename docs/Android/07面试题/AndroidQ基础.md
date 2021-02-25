@@ -741,6 +741,79 @@ Handler mThreadHandler = new Handler(handlerThread.loop); // 传入loop
 
 
 
+### 8. 加载图片问题
+
+#### 1. 基础知识
+
+- 一张图片加载到内存大小
+
+  图片内存大小 = 图片宽度 * 图片高度 * 一个像素字节数(4)
+
+  利用一个1000*1000像素的图片，默认加载后大小为4M。
+
+- 一个像素所占字节数
+
+  ```java
+  Bitmap.Config.RGB_565; // Glide用2字节
+  Bitmap.Config.RGB_888; // 默认4字节
+  ```
+
+- 图片压缩方法
+
+  质量压缩、采样率压缩。
+
+#### 2. 加载大图
+
+缩放大图宽高
+
+```java
+//1. 仅仅获取图片宽高
+BitmapFactory.Options options = new Options();
+options.inJustDecodeBounds = true;
+BitmapFactory.decodeResource(getResources(), R.drawable.bigpicture, options);
+int outHeight = options.outHeight;
+int outWidth = options.outWidth;
+//2. 计算缩放参数
+options.inSampleSize = 2; // 缩小一倍
+```
+
+#### 3. 展示巨图局部
+
+通过`BitmapRegionDecoder`只读取对应显示矩形框图大小。
+
+```java
+InputStream inputStream = getResources().getAssets().open("bigpicture.jpg");
+            BitmapRegionDecoder regionDecoder = BitmapRegionDecoder.newInstance(inputStream, false);
+            int measuredHeight = view.getMeasuredHeight();
+            int measuredWidth = view.getMeasuredWidth();
+            Rect rect = new Rect(0, 0, measuredWidth, measuredHeight);
+            Bitmap bitmap = regionDecoder.decodeRegion(rect, new Options());
+            view.setImageBitmap(bitmap);
+
+```
+
+#### 4. 滑动显示巨图
+
+同上，通过移动距离 动态调整矩形框大小。
+
+1. 在 onMeasure 中拿到测量后的大小，设置给 Rect
+2. 在 onTouchEvent() 方法中，计算滑动的距离，然后设置给 Rect
+3. 设置了新的显示区域以后，调用 invalidate() 方法， 请求绘制，这时候会调用 onDraw() 方法
+4. 在 onDraw() 方法中根据 Rect 拿到需要显示的局部 Bitmap， 通过 Canvas 绘制回来。
+
+#### 5. 缩放移动地图(zoom pan)
+
+**要点：**
+
+- 实现View，重写measure，layout，draw过程
+- 将整个Bitmap分割成很多方块
+- 使用BitmapRegionDecoder来区间加载这些小的Bitmap，铺满整个屏幕
+- 以屏幕的左上角为原点，用户移动的时候，控制图片的Translate,映射Bitmap内容到屏幕上去
+
+[参考 subsampling-scale-image-view](https://github.com/davemorrissey/subsampling-scale-image-view)
+
+
+
 
 
 - 引用
