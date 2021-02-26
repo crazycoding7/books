@@ -10,7 +10,7 @@ module.exports = {
     sidebar: [
       {
         title: 'Android基础',   // 必要的
-        path: '/Android/',      // 可选的, 应该是一个绝对路径
+        path: '',      // 可选的, 应该是一个绝对路径
         collapsable: false, // 可选的, 默认值是 true,
         sidebarDepth: 1,    // 可选的, 默认值是 1
         children: [
@@ -21,7 +21,7 @@ module.exports = {
       },
        {
         title: 'Tools',
-        path: '/Tools/',      // 可选的, 应该是一个绝对路径
+        path: '',      // 可选的, 应该是一个绝对路径
         collapsable: false, // 可选的, 默认值是 true,
         children: [
             '/Tools/1.Mac开发快捷键大全.md',
