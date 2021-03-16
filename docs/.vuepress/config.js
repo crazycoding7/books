@@ -16,7 +16,7 @@ module.exports = {
         children: [
             '/Android/01基础机制/1.Android系统启动流程',
             '/Android/01基础机制/2.Binder进程通信机制.md',
-            '/Android/07面试题/超越100知识总结.md'
+            '/Android/07面试题/知识库.md'
         ]
       },
       {

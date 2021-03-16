@@ -575,3 +575,17 @@ public static void main(String[] args) {
     }
 ```
 
+##### 29. ConcurrentHashMap和Hashtable区别？
+
+​	hashtable每次同步时锁住整个结构，ConcurrentHashMap锁的方式是微粒度的，默认有16个桶，只有全部写入才锁住整个结构，效率更高。
+
+![](images/connection_concurrenthashmap.jpg)
+
+##### 30. 多读少写并发场景使用的数据结构？
+
+CopyOnWriteArrayList、CopyOnWriteMap处理这种场景用的。
+
+原理： 读的时候不加锁，写的时候先加锁，再把数据copy一份然后更新数据，最后指针指向新数据，再解锁。
+
+缺点：多占用一份内存，数据一致性问题。
+
