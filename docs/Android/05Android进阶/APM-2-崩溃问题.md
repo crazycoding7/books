@@ -2,6 +2,12 @@
 
 [TOC]
 
+> 解决方案：
+>
+> java crash: app自定义捕获异常； umeng等第三方捕获异常。
+>
+> native crash: google breakpad捕获异常minidump文件，再有带有调试信息的so根据pc值和偏移量获取方法名和函数。
+
 #### 一、概述
 
 ​	我们都知道，Android崩溃分为Java崩溃和Native崩溃。Java崩溃捕获比较简单，Native崩溃捕获复杂。
@@ -323,6 +329,16 @@ NDK开发、Linux系统知识和编译知识。
 [1. demo](https://github.com/AndroidAdvanceWithGeektime/Chapter01)
 
 [2. 源码地址](https://github.com/google/breakpad)
+
+>Google breakpad是一个跨平台的崩溃转储和分析框架和工具集合。
+>
+>Breakpad由三个主要组件：
+>
+>- client，以library的形式内置在你的应用中，当崩溃发生时写 **minidump文件**
+>- symbol dumper, 读取由编译器生成的调试信息（debugging information），并生成 **symbol file**
+>- processor， 读取 **minidump文件** 和 **symbol file** ，生成可读的c/c++ Stack trace.
+>
+>简单来说就是一个生成 minidump，一个生成symbol file，然后将其合并处理成可读的Stack trace。
 
 1. 自己编译源码
 

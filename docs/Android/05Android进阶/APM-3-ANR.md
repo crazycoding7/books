@@ -2,6 +2,13 @@
 
 [TOC]
 
+> 解决方案：
+>
+> 1. 查看logcat 输出`The application may be doing too much work on its main thread.`；
+> 2. data/arn/trace.txt 或data/report/trace.txt获取log；
+> 3. 监控消息队列消息处理事件；
+> 4. 打印函数执行时间；
+
 ### 一、介绍
 
 ​	ANR全称：Application Not Reponding，也就四应用程序无响应。
