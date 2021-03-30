@@ -626,11 +626,18 @@ public class HandlerThread extends Thread {
 Handler mThreadHandler = new Handler(handlerThread.loop); // 传入loop
 ```
 
-#### 8. 消息阻塞的深层机制？
+#### 8. Handler.postDealy()实现和消息阻塞的深层机制？
 
 > IO事件：输入输出(input/output)的对象可以是文件(file)， 网络(socket)，进程之间的管道(pipe)。在linux系统中，都用文件描述符(fd)来表示。
 
-​	epoll机制：epoll是Linux内核为处理大批量[文件描述符](https://baike.baidu.com/item/文件描述符/9809582)而作了改进的poll，是Linux下多路复用IO接口select/poll的增强版本，它能显著提高程序在大量[并发连接](https://baike.baidu.com/item/并发连接/3763280)中只有少量活跃的情况下的系统CPU利用率。
+1.  根据Message时间先后将消息插入Message链表；
+2. 无限循环计算当前Message是否立即执行(when)，如果没到执行时间，调用`nativePollOnce(ptr, nextPollTimeoutMillis);`阻塞消息队列，等待系统到时间自动唤醒执行；
+3. 如果阻塞期间有新消息过来，如果需要立即执行，就立即执行；如果没到时间，插入到前面，然后重新计算阻塞队列唤醒时间；
+4. 一个消息执行完毕，自动再进行下一次唤醒时间计算，然后阻塞。
+
+
+
+epoll机制：epoll是Linux内核为处理大批量[文件描述符](https://baike.baidu.com/item/文件描述符/9809582)而作了改进的poll，是Linux下多路复用IO接口select/poll的增强版本，它能显著提高程序在大量[并发连接](https://baike.baidu.com/item/并发连接/3763280)中只有少量活跃的情况下的系统CPU利用率。
 
 - `select` 和 `poll` 监听文件描述符list，进行一个线性的查找 O(n)
 

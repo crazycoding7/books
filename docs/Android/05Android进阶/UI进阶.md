@@ -4,7 +4,7 @@
 
 #### 1. UI绘制流程？
 
-<img src="/Users/alex/books/docs/Android/05Android进阶/images/ui-design.jpg" style="zoom:50%;" />
+<img src="images/ui-design.jpg" style="zoom:50%;" />
 
 #### 2. getWidth和getMeasureWidth区别？
 
@@ -79,4 +79,8 @@ public void layout( int l , int t, int r , int b){
 #### 7. onLayout()研究
 
 [参考](https://www.jianshu.com/p/da4e77fd0cfe)
+
+#### 8. 动画实现总结？
+
+[参考](https://www.jianshu.com/p/420629118c10)
 
