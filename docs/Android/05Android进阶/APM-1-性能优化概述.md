@@ -36,3 +36,10 @@ APM平台可以协助我们把控产品质量，它所关注的问题就是性�
 
 
 #### 四、架构演进
+
+
+
+- 参考
+
+[APM原理](https://www.imooc.com/article/33354?block_id=tuijian_wz)
+
