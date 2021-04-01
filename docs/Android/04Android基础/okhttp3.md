@@ -1,10 +1,8 @@
-### Okhttp
+# Okhttp
 
-#### Introduction
+[TOC]
 
-OkHttp是Square开源的轻量级框架，是一款现代、高效、快速的Android版Http client。
-
-#### 优势
+#### 1. 优势
 
 它的设计和实现的首要目标便是高效，有如下特性：
 
@@ -32,6 +30,18 @@ OkHttp是Square开源的轻量级框架，是一款现代、高效、快速的An
 - HttpEngine  http请求处理类；
 
 ![classes](/images/ok_http_classes.png)
+
+### 2. 面试题
+
+#### 1. 责任链模式的运用？
+
+[参考](https://www.codercto.com/a/65790.html)
+
+#### 2. 应用拦截器和网络拦截器的区别？
+
+
+
+
 
 - **引用知识点**
 

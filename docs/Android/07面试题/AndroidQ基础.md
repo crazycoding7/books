@@ -262,7 +262,7 @@ BroadcastReceiver:广播。
 
 ![event_handler](images/androideventhandler.jpg)
 
-
+[参考](https://blog.csdn.net/hnlgzb/article/details/83653302)
 
 ##### 12. ANR是什么？如何避免ANR?
 
