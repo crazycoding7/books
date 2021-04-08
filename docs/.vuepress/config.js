@@ -39,6 +39,14 @@ module.exports = {
             '/Tools/2.翻墙工具指南.md',
         ]
       },
+      {
+        title: '文章',
+        path: '',      // 可选的, 应该是一个绝对路径
+        collapsable: false, // 可选的, 默认值是 true,
+        children: [
+            '/ppt/警世通言.md'
+        ]
+      }
     ] 
   }
 }
