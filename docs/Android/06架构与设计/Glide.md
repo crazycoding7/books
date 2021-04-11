@@ -536,3 +536,5 @@ public class LargeImageView extends View
 
 [Android  bitmap 存储位置变迁](https://www.cnblogs.com/mingfeng002/p/11400433.html)
 
+[框架介绍](https://blog.csdn.net/qq_32019367/article/details/103883118)
+
