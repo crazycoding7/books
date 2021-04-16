@@ -2,6 +2,8 @@
 
 ![android_brain](images/android_brain.png)
 
+![](./images/android_skill.jpeg)
+
 1. 怎样理解面向对象和面向过程？
 
    **编程语言发展**
