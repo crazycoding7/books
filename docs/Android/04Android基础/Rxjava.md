@@ -91,4 +91,6 @@ E/MainActivityCoroutine: observer onComplete()
 - 参考
 
   [给 Android 开发者的 RxJava 详解](https://gank.io/post/560e15be2dca930e00da1083)
+  
+  [RxJava使用场景](https://blog.csdn.net/theone10211024/article/details/50435325)
 

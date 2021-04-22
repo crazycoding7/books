@@ -62,6 +62,8 @@
 
   (1)在Activity被系统销毁后，恢复时被调用； bundle对象也通过参数传递到onCreate()方法中。
 
+<img src="./images/fragment_life.jpeg" style="zoom:80%;" />
+
 ##### 2. Service生命周期？
 
 > startService()->onCreate()->onStartCommand()->onDestory();
@@ -489,6 +491,60 @@ RecycleBin机制。
 - 硬件加速条件下，刷新界面尤其是播放动画时，CPU只重建或更新必要的DisplayList，进一步提高渲染效率。
 
 实现同样效果，应尽量使用更简单的DisplayList，从而达到更好的性能（Shape代替Bitmap等）。
+
+##### 22. Andorid 6 7 8 9 10 系统新特性？
+
+- 10.0系统
+
+  1. 新增了运动健康计步权限，否则无法使用内置计步器计步；
+
+  ```java
+  <!-- Android10之后，计步器需要健身运动权限 -->
+  <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+  // 动态申请权限
+  private void requestStepPermission() {
+          //动态申请健康运动权限
+          String[] permissions = {Manifest.permission.ACTIVITY_RECOGNITION};
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+              int get = ContextCompat.checkSelfPermission(this, permissions[0]);
+              // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
+              if (get != PackageManager.PERMISSION_GRANTED) {
+                  // 如果没有授予该权限，就去提示用户请求自动开启权限
+                  ActivityCompat.requestPermissions(this, permissions, 321);
+              }
+          }
+      }  
+  ```
+
+  2. 默认开启沙箱模式，即使动态申请了存储卡读写权限，在外部存储上读写文件依然失败。
+
+     `android:requestLegacyExternalStorage="true"`
+
+  3. 支持屏幕折叠和5G;
+
+- 9.0系统
+
+  1. 默认禁止访问http地址，只允许访问https地址。如果仍要访问http地址，需要修改配置
+
+     ```java
+     <?xml version="1.0" encoding="utf-8"?>
+     <network-security-config>
+         <base-config cleartextTrafficPermitted="true" />
+     </network-security-config>
+     
+         <application
+             android:icon="@mipmap/ic_launcher"
+             android:label="@string/app_name"
+             android:theme="@style/AppTheme"
+             android:networkSecurityConfig="@xml/network_security_config"
+             android:name=".MainApplication">
+     ```
+
+  2. ..
+
+- 8.0系统
+
+
 
 ### 1. 基础机制
 

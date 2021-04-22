@@ -20,6 +20,8 @@
 
 <img src="./ppt/images/normal_jump.jpeg" style="zoom:50%;" />
 
+![](./Android/images/android_skill.jpeg)
+
 #### 1. 基础机制总结[7篇]
 
 - [1. Android系统启动过程](https://github.com/crazycoding7/AndroidBlogs/blob/master/android/01%E5%9F%BA%E7%A1%80%E6%9C%BA%E5%88%B6/1.Android%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B.md)
