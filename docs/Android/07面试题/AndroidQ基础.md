@@ -537,14 +537,49 @@ RecycleBin机制。
              android:label="@string/app_name"
              android:theme="@style/AppTheme"
              android:networkSecurityConfig="@xml/network_security_config"
-             android:name=".MainApplication">
+             android:name=".MainApplication"
      ```
-
-  2. ..
 
 - 8.0系统
 
+  1. 消息通知需要指定渠道编号才能推送；
 
+  2. 属性动画组合AnimatorSet增加了setCurrentPlayTime和reverse方法，从而允许倒过来播放属性动画组合。
+
+  3. 悬浮窗要使用类型TYPE_APPLICATION_OVERLAY，原来的类型TYPE_SYSTEM_ALERT从Android8.0开始被舍弃了。
+
+     ```java
+         WindowManager.LayoutParams wmParams = new WindowManager.LayoutParams();
+         // 设置为TYPE_SYSTEM_ALERT类型，才能悬浮在其它页面之上
+         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+             // 注意TYPE_SYSTEM_ALERT从Android8.0开始被舍弃了
+             wmParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+         } else {
+             // 从Android8.0开始悬浮窗要使用TYPE_APPLICATION_OVERLAY
+             wmParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+         }
+     ```
+
+- 7.0
+
+  1. APK signature scheme v2(引入V2签名方案)。
+
+     Android 应用的签名工具有两种：jarsigner 和 signAPK。它们的签名算法没什么区别，主要是签名使用的文件不同。
+
+     jarsigner：jdk 自带的签名工具，可以对 jar 进行签名。使用 keystore 文件进行签名。生成的签名文件默认使用 keystore 的别名命名。
+     signAPK：Android sdk 提供的专门用于 Android 应用的签名工具。使用 pk8、x509.pem 文件进行签名。其中 pk8 是私钥文件，x509.pem 是含有公钥的文件。生成的签名文件统一使用“CERT”命名。
+
+     **区别：**
+
+     V2对整个APK进行签名，V1对jar进行签名；
+
+     V2签名校验速度会更快；
+
+     V2不允许通过修改META-INF文件进行多渠道打包。
+
+- 6.0
+
+  1. 动态权限管理。
 
 ### 1. 基础机制
 
