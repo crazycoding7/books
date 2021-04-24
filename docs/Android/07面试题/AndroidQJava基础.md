@@ -1,4 +1,4 @@
-#### Java基础
+# Java基础
 
 [TOC]
 
@@ -85,15 +85,13 @@
 
 
 
-### 其它
-
-##### 1. weakReference与softReference区别？
+### 1. weakReference与softReference区别？
 
 sf: 当内存不足的时候才会被回收，多用于高速缓存防止内存溢出；
 
 wr:每次gc的时候都会被回收，用于实现cache机制。
 
-##### 2. sleep和wait区别？
+### 2. sleep和wait区别？
 
 sleep是线程类的静态方法，wait是对象方法(任何一个对象都有)；
 
@@ -101,7 +99,7 @@ sleep不释放同步锁，wait释放同步锁，需要notify/notifyAll唤醒；
 
 sleep必须捕获异常。
 
-##### 3. String、StringBuffer、StringBuilder区别？
+### 3. String、StringBuffer、StringBuilder区别？
 
 执行速度：StringBuilder>StringBuffer>String;
 
@@ -109,7 +107,7 @@ StringBuffer是线程安全的，StringBuilder不是的；
 
 stirng赋值每次开辟新空间，stringbuffer可以在原有空间追加。
 
-##### 4. Http、Https区别？
+### 4. Http、Https区别？
 
 1、https需要ca证书；
 
@@ -121,7 +119,7 @@ stirng赋值每次开辟新空间，stringbuffer可以在原有空间追加。
 
 [https原理:](android/100qa网络安全.md)
 
-##### 5. TCP/UDP区别？
+### 5. TCP/UDP区别？
 
 1、TCP是面向连接的(三次握手四次挥手)，UDP是面向无连接的；
 
@@ -129,7 +127,7 @@ stirng赋值每次开辟新空间，stringbuffer可以在原有空间追加。
 
 3、TCP是保证数据准确性、顺序性的，UDK可能丢包和无序。
 
-##### 6. Http Get Post区别？
+### 6. Http Get Post区别？
 
 1、url可见性
 
@@ -159,7 +157,7 @@ stirng赋值每次开辟新空间，stringbuffer可以在原有空间追加。
 
 
 
-##### 7. Socket建立网络连接的步骤？
+### 7. Socket建立网络连接的步骤？
 
 **服务器端套路**
 
@@ -182,7 +180,7 @@ stirng赋值每次开辟新空间，stringbuffer可以在原有空间追加。
 建立连接的两个socket在一个单独的线程上对话。
 服务器端继续等待新的连接。
 
-##### 8. ==、equals、hashcode区别？
+### 8. ==、equals、hashcode区别？
 
 **基本数据类型:** == 比的值是否相等；
 
@@ -192,7 +190,7 @@ stirng赋值每次开辟新空间，stringbuffer可以在原有空间追加。
 
 如果两个对象equals相等，hashcode一定相等；hashcode相等，equals不一定相等。
 
-##### 9. int integer区别？
+### 9. int integer区别？
 
 `public final class Integer extends Number implements Comparable<Integer> {...}`
 
@@ -213,13 +211,13 @@ System.out.println(i5 == i6);//true
 
 3、比较时，integer会自动拆箱为int进行比较。
 
-##### 10. Serializable和Parcelable的区别？
+### 10. Serializable和Parcelable的区别？
 
 Serializable 是java序列号接口，在硬盘读写数据会产生大量临时变量，内部执行大量io，效率低；
 
 Parcelable 是Android序列化接口，序列化麻烦，在内存中读写，对象不能保存在磁盘中。
 
-##### 11. 说说你对java反射的理解？
+### 11. 说说你对java反射的理解？
 
 > JAVA反射机制是在运行状态中,  对于任意一个类, 都能够知道这个类的所有属性和方法; 对于任意一个对象, 都能够调用它的任意一个方法和属性。
 
@@ -237,7 +235,7 @@ Parcelable 是Android序列化接口，序列化麻烦，在内存中读写，�
 3. 单元测试，对私有方法进行测试。
 4. retrofit利用反射 获取 Service声明的方法，并将所有的方法放在serviceMothodCache集合中。
 
-##### 12. List、Set、Map区别？
+### 12. List、Set、Map区别？
 
 Collection 接口的接口 对象的集合（单列集合）
 ├——-List 接口：元素按进入先后有序保存，可重复
@@ -258,7 +256,7 @@ Map 接口 键值对的集合 （双列集合）
 ├ ——–TreeMap 红黑树对所有的key进行排序
 └———IdentifyHashMap
 
-##### 13. ArrayMap、HashMap区别？
+### 13. ArrayMap、HashMap区别？
 
 1、Android特定提供的API，能有效利用空间，在千级数量量以内使用；
 
@@ -268,7 +266,7 @@ Map 接口 键值对的集合 （双列集合）
 
 4、SparseArray类似有ArrayMap，只支持key为int类型；
 
-##### 14. HashMap、HashTable区别？
+### 14. HashMap、HashTable区别？
 
 hashTable是线程安全的；
 
@@ -278,7 +276,7 @@ hashTabel直接使用对象的hashCode，而hashmap重新计算hash值；
 
 扩容方式不同： ht默认11，hm默认16，hashmap要求底层数组一定为2的整数次幂。hashmap扩容为2倍，hashTable为old*2+1;
 
-##### 15. HashMap、HashSet区别？
+### 15. HashMap、HashSet区别？
 
 1、一个实现Map接口(key-value)，一个实现Set接口(value)；
 
@@ -286,11 +284,11 @@ hashTabel直接使用对象的hashCode，而hashmap重新计算hash值；
 
 3、HashMap使用key获取hashcode，HashSet使用对象计算hashcode，如果两个对象hashcode相等，可以判断对象是否相等来比较；
 
-##### 16. ArrayList、LinkedList区别？
+### 16. ArrayList、LinkedList区别？
 
 ArrayList底层用数组实现，插入和删除效率低；linkedList使用链表实现，查找效率低；
 
-##### 17. 如何保证线程安全？
+### 17. 如何保证线程安全？
 
 1、synchronized；
 
@@ -298,7 +296,7 @@ ArrayList底层用数组实现，插入和删除效率低；linkedList使用链�
 
 3、ThreadLocal机制来实现；
 
-##### 18. 如何实现线程同步？
+### 18. 如何实现线程同步？
 
 1、sync关键字修饰方法；
 
@@ -306,7 +304,7 @@ ArrayList底层用数组实现，插入和删除效率低；linkedList使用链�
 
 3、volatile实现线程同步；
 
-##### 19. 有三个线程T1,T2,T3，如果保存他们顺序执行？
+### 19. 有三个线程T1,T2,T3，如果保存他们顺序执行？
 
 ```java
     public static void main(String[] args) {
@@ -346,7 +344,7 @@ ArrayList底层用数组实现，插入和删除效率低；linkedList使用链�
     }
 ```
 
-##### 20. Synchronized 和 volatile关键字区别？
+### 20. Synchronized 和 volatile关键字区别？
 
 1. 锁提供了两种特性： 互斥性(mutual exclusion)和可见性(visibility)；
 
@@ -372,7 +370,7 @@ ArrayList底层用数组实现，插入和删除效率低；linkedList使用链�
 
    5、使用volatile唯一安全情况是类中**只有一个可变的域(n=n+1,n++就不行)**。
 
-##### 21. ReentrantLock、Synchronized比较？
+### 21. ReentrantLock、Synchronized比较？
 
 1、 都是可重入的独占锁，性能上没有太多差别，比起synchronized功能更加丰富，支持公平锁实现，支持中断响应以及限时等待等等。可以配合一个或多个Condition条件方便的实现等待通知机制。
 
@@ -448,7 +446,7 @@ sync使用简单，无序担心忘记手动解锁，加锁解锁是隐式的，�
      | 轻量级锁 | 竞争的线程不会阻塞，提高了程序的响应速度。                   | 如果始终得不到锁竞争的线程使用自旋会消耗CPU。    | 追求响应时间。同步块执行速度非常快。 |
      | 重量级锁 | 线程竞争不使用自旋，不会消耗CPU。                            | 线程阻塞，响应时间缓慢。                         | 追求吞吐量。同步块执行速度较长。     |
 
-##### 22. 死锁的四个必要条件？
+### 22. 死锁的四个必要条件？
 
    （1）互斥条件：进程对所分配到的资源不允许其他进程进行访问，若其他进程访问该资源，只能等待，直至占有该资源的进程使用完成后释放该资源
 
@@ -458,13 +456,26 @@ sync使用简单，无序担心忘记手动解锁，加锁解锁是隐式的，�
 
    （4）环路等待条件：是指进程发生死锁后，必然存在一个进程--资源之间的环形链。
 
-   ##### 23. 线程池理解？
+   ### 23. 线程池理解？
+
+**好处：**
+
+第一：降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
+第二：提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。
+第三：提高线程的可管理性。线程是稀缺资源，如果无限制地创建，不仅会消耗系统资源，
+还会降低系统的稳定性，使用线程池可以进行统一分配、调优和监控。
+
+**流程：**
+
+1）当提交一个新任务到线程池时，线程池判断corePoolSize线程池是否都在执行任务，如果有空闲线程，则创建一个新的工作线程来执行任务，直到当前线程数等于corePoolSize；
+
+2）如果当前线程数为corePoolSize，继续提交的任务被保存到阻塞队列中，等待被执行；
+
+3）如果阻塞队列满了，那就创建新的线程执行当前任务，直到线程池中的线程数达到maxPoolSize，这时再有任务来，由饱和策略来处理提交的任务
 
    [参考1](https://blog.csdn.net/luzhensmart/article/details/88044364)
 
-   [参考2](https://blog.csdn.net/luzhensmart/article/details/88044364)
-
-   ##### 24. 加密算法(base64,MD5,对称加密和非对称加密)和使用场景？
+   ### 24. 加密算法(base64,MD5,对称加密和非对称加密)和使用场景？
 
    > 大量数据加密建议采用对称加密算法，提高加解密速度；小量的机密数据，可以采用非对称加密算法。在实际的操作过程中，我们通常采用的方式是：**采用非对称加密算法管理对称算法的密钥，然后用对称加密算法加密数据，这样我们就集成了两类加密算法的优点，既实现了加密速度快的优点，又实现了安全方便管理密钥的优点。**
 
@@ -489,7 +500,7 @@ sync使用简单，无序担心忘记手动解锁，加锁解锁是隐式的，�
 
   其实不是安全领域下的加密解密算法，只能算是一个编码算法，通常用于把二进制数据编码为可写的字符形式的数据，对数据内容进行编码来适合传输(可以对img图像编码用于传输)。这是一种可逆的编码方式。
 
-##### 25. 说说你的Java注解的理解？
+### 25. 说说你的Java注解的理解？
 
 > The common interface extended by all annatation types(所有的注解类型都继承自这个普通的接口Annatation). 或者说 **「注解的本质就是一个继承了 Annotation 接口的接口」**。
 >
@@ -534,11 +545,11 @@ sync使用简单，无序担心忘记手动解锁，加锁解锁是隐式的，�
 
   [查看](android/100qa进阶.md)   
 
-##### 27. 写一个生产者-消费者实现
+### 27. 写一个生产者-消费者实现
 
  [参考](https://www.cnblogs.com/yunche/p/9540561.html)
 
-##### 28. LinkedHashMap
+### 28. LinkedHashMap
 
 ​	利用双向链表把Entry联系起来，可以实现插入顺序遍历。内部已经实现LRU算法。
 
@@ -575,17 +586,80 @@ public static void main(String[] args) {
     }
 ```
 
-##### 29. ConcurrentHashMap和Hashtable区别？
+### 29. ConcurrentHashMap和Hashtable区别？
 
 ​	hashtable每次同步时锁住整个结构，ConcurrentHashMap锁的方式是微粒度的，默认有16个桶，只有全部写入才锁住整个结构，效率更高。
 
 ![](images/connection_concurrenthashmap.jpg)
 
-##### 30. 多读少写并发场景使用的数据结构？
+### 30. 多读少写并发场景使用的数据结构？
 
 CopyOnWriteArrayList、CopyOnWriteMap处理这种场景用的。
 
 原理： 读的时候不加锁，写的时候先加锁，再把数据copy一份然后更新数据，最后指针指向新数据，再解锁。
 
 缺点：多占用一份内存，数据一致性问题。
+
+### 31. SynchronousQueue原理和使用场景
+
+[原理](https://blog.csdn.net/yanyan19880509/article/details/52562039)
+
+### 32. 线程并发之AQS
+
+[AQS讲解](https://www.cnblogs.com/waterystone/p/4920797.html)
+
+### 33. http协议队首阻塞问题
+
+1 队首阻塞
+
+就是需要排队，队首的事情没有处理完的时候，后面的人都要等着。
+
+2 http1.0的队首阻塞
+
+对于同一个tcp连接，所有的http1.0请求放入队列中，只有前一个请求的响应收到了，然后才能发送下一个请求。
+
+可见，http1.0的队首组塞发生在客户端。
+
+3 http1.1的队首阻塞
+
+对于同一个tcp连接，http1.1允许一次发送多个http1.1请求，也就是说，不必等前一个响应收到，就可以发送下一个请求，这样就解决了http1.0的客户端的队首阻塞。但是，http1.1规定，服务器端的响应的发送要根据请求被接收的顺序排队，也就是说，先接收到的请求的响应也要先发送。这样造成的问题是，如果最先收到的请求的处理时间长的话，响应生成也慢，就会阻塞已经生成了的响应的发送。也会造成队首阻塞。
+
+可见，http1.1的队首阻塞发生在服务器端。
+
+4 http2是怎样解决队首阻塞的
+
+http2无论在客户端还是在服务器端都不需要排队，在同一个tcp连接上，有多个stream，由各个stream发送和接收http请求，各个steam相互独立，互不阻塞。
+
+只要tcp没有人在用那么就可以发送已经生成的requst或者reponse的数据，在两端都不用等，从而彻底解决了http协议层面的队首阻塞问题。
+
+### 34. http2.0 多路复用？
+
+[参考](https://segmentfault.com/a/1190000011172823)
+
+### 35. http2.0特性？
+
+HTTP/2有三大特性：头部压缩、Server Push、多路复用。
+
+总所周知，**HTTP 1.x拥有队首阻塞、不支持多路复用、Header无法压缩等诸多缺点。**尽管针对这些缺点也提出了很多解决方案，如长连接、连接与合并请求、HTTP管道等，但都治标不治本，直到HTTP 2.0的出现，它新增的以下设计从根本上解决了HTTP 1.x所面临的诸多问题。
+
+- **二进制分帧层，是HTTP 2.0性能增强的核心，改变了客户端与服务器之间交互数据的方式，将传输的信息（Header、Body等）分割为更小的消息和帧，并采用二进制格式的编码**。
+
+- 并行请求与响应，客户端及服务器可以把HTTP消息分解为互不依赖的帧，然后乱序发送，最后再在另一端把这些消息组合起来。
+
+- 请求优先级（0表示最高优先级、2 31 2^{31}2 31-1表示最低优先级），每个流可以携带一个优先值，有了这个优先值，客户端及服务器就可以在处理不同的流时采取不同的策略，以最优的方式发送流、消息和帧。但优先级的处理需要慎重，否则有可能会引入队首阻塞问题。
+
+- **单TCP连接，HTTP 2.0可以让所有数据流共用一个连接，从而更有效的使用TCP连接**
+
+- 流量控制，控制每个流占用的资源，与TCP的流量控制实现是一模一样的。
+
+- **服务器推送，**HTTP 2.0可以对一个客户端请求发送多个响应，即除了最初请求响应外，服务器还可以额外的向客户端推送资源，而无需客户端明确地请求。
+
+- **首部（Header）压缩，**HTTP 2.0会在客户端及服务器使用“首部表”来跟踪和存储之前发送的键-值对，对于相同的数据，不会再通过每次请求和响应发送。首部表在连接存续期间始终存在，由客户端及服务器共同渐进的更新。每个新的首部键-值对要么追加到当前表的末尾，要么替换表中的值。
+   
+
+  虽然HTTP 2.0解决了1.x中的诸多问题，但它也存在以下问题。
+
+虽然消除了HTTP队首阻塞现象，但TCP层次上仍然存在队首阻塞现象。要想彻底解决这个问题，就需要彻底抛弃TCP，自己来定义协议。可以参考谷歌的QUIC。
+如果TCP窗口缩放被禁用，那宽带延迟积效应可能会限制连接的吞吐量。
+丢包时，TCP拥塞窗口会缩小。
 
