@@ -62,6 +62,8 @@
 
   (1)在Activity被系统销毁后，恢复时被调用； bundle对象也通过参数传递到onCreate()方法中。
 
+<img src="./images/fragment_life.jpeg" style="zoom:80%;" />
+
 ##### 2. Service生命周期？
 
 > startService()->onCreate()->onStartCommand()->onDestory();
@@ -262,7 +264,7 @@ BroadcastReceiver:广播。
 
 ![event_handler](images/androideventhandler.jpg)
 
-
+[参考](https://blog.csdn.net/hnlgzb/article/details/83653302)
 
 ##### 12. ANR是什么？如何避免ANR?
 
@@ -490,6 +492,95 @@ RecycleBin机制。
 
 实现同样效果，应尽量使用更简单的DisplayList，从而达到更好的性能（Shape代替Bitmap等）。
 
+##### 22. Andorid 6 7 8 9 10 系统新特性？
+
+- 10.0系统
+
+  1. 新增了运动健康计步权限，否则无法使用内置计步器计步；
+
+  ```java
+  <!-- Android10之后，计步器需要健身运动权限 -->
+  <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+  // 动态申请权限
+  private void requestStepPermission() {
+          //动态申请健康运动权限
+          String[] permissions = {Manifest.permission.ACTIVITY_RECOGNITION};
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+              int get = ContextCompat.checkSelfPermission(this, permissions[0]);
+              // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
+              if (get != PackageManager.PERMISSION_GRANTED) {
+                  // 如果没有授予该权限，就去提示用户请求自动开启权限
+                  ActivityCompat.requestPermissions(this, permissions, 321);
+              }
+          }
+      }  
+  ```
+
+  2. 默认开启沙箱模式，即使动态申请了存储卡读写权限，在外部存储上读写文件依然失败。
+
+     `android:requestLegacyExternalStorage="true"`
+
+  3. 支持屏幕折叠和5G;
+
+- 9.0系统
+
+  1. 默认禁止访问http地址，只允许访问https地址。如果仍要访问http地址，需要修改配置
+
+     ```java
+     <?xml version="1.0" encoding="utf-8"?>
+     <network-security-config>
+         <base-config cleartextTrafficPermitted="true" />
+     </network-security-config>
+     
+         <application
+             android:icon="@mipmap/ic_launcher"
+             android:label="@string/app_name"
+             android:theme="@style/AppTheme"
+             android:networkSecurityConfig="@xml/network_security_config"
+             android:name=".MainApplication"
+     ```
+
+- 8.0系统
+
+  1. 消息通知需要指定渠道编号才能推送；
+
+  2. 属性动画组合AnimatorSet增加了setCurrentPlayTime和reverse方法，从而允许倒过来播放属性动画组合。
+
+  3. 悬浮窗要使用类型TYPE_APPLICATION_OVERLAY，原来的类型TYPE_SYSTEM_ALERT从Android8.0开始被舍弃了。
+
+     ```java
+         WindowManager.LayoutParams wmParams = new WindowManager.LayoutParams();
+         // 设置为TYPE_SYSTEM_ALERT类型，才能悬浮在其它页面之上
+         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+             // 注意TYPE_SYSTEM_ALERT从Android8.0开始被舍弃了
+             wmParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+         } else {
+             // 从Android8.0开始悬浮窗要使用TYPE_APPLICATION_OVERLAY
+             wmParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+         }
+     ```
+
+- 7.0
+
+  1. APK signature scheme v2(引入V2签名方案)。
+
+     Android 应用的签名工具有两种：jarsigner 和 signAPK。它们的签名算法没什么区别，主要是签名使用的文件不同。
+
+     jarsigner：jdk 自带的签名工具，可以对 jar 进行签名。使用 keystore 文件进行签名。生成的签名文件默认使用 keystore 的别名命名。
+     signAPK：Android sdk 提供的专门用于 Android 应用的签名工具。使用 pk8、x509.pem 文件进行签名。其中 pk8 是私钥文件，x509.pem 是含有公钥的文件。生成的签名文件统一使用“CERT”命名。
+
+     **区别：**
+
+     V2对整个APK进行签名，V1对jar进行签名；
+
+     V2签名校验速度会更快；
+
+     V2不允许通过修改META-INF文件进行多渠道打包。
+
+- 6.0
+
+  1. 动态权限管理。
+
 ### 1. 基础机制
 
 #### 1. Binder机制
@@ -626,11 +717,18 @@ public class HandlerThread extends Thread {
 Handler mThreadHandler = new Handler(handlerThread.loop); // 传入loop
 ```
 
-#### 8. 消息阻塞的深层机制？
+#### 8. Handler.postDealy()实现和消息阻塞的深层机制？
 
 > IO事件：输入输出(input/output)的对象可以是文件(file)， 网络(socket)，进程之间的管道(pipe)。在linux系统中，都用文件描述符(fd)来表示。
 
-​	epoll机制：epoll是Linux内核为处理大批量[文件描述符](https://baike.baidu.com/item/文件描述符/9809582)而作了改进的poll，是Linux下多路复用IO接口select/poll的增强版本，它能显著提高程序在大量[并发连接](https://baike.baidu.com/item/并发连接/3763280)中只有少量活跃的情况下的系统CPU利用率。
+1.  根据Message时间先后将消息插入Message链表；
+2. 无限循环计算当前Message是否立即执行(when)，如果没到执行时间，调用`nativePollOnce(ptr, nextPollTimeoutMillis);`阻塞消息队列，等待系统到时间自动唤醒执行；
+3. 如果阻塞期间有新消息过来，如果需要立即执行，就立即执行；如果没到时间，插入到前面，然后重新计算阻塞队列唤醒时间；
+4. 一个消息执行完毕，自动再进行下一次唤醒时间计算，然后阻塞。
+
+
+
+epoll机制：epoll是Linux内核为处理大批量[文件描述符](https://baike.baidu.com/item/文件描述符/9809582)而作了改进的poll，是Linux下多路复用IO接口select/poll的增强版本，它能显著提高程序在大量[并发连接](https://baike.baidu.com/item/并发连接/3763280)中只有少量活跃的情况下的系统CPU利用率。
 
 - `select` 和 `poll` 监听文件描述符list，进行一个线性的查找 O(n)
 
@@ -738,6 +836,79 @@ Handler mThreadHandler = new Handler(handlerThread.loop); // 传入loop
    ```
 
 2. ...
+
+
+
+### 8. 加载图片问题
+
+#### 1. 基础知识
+
+- 一张图片加载到内存大小
+
+  图片内存大小 = 图片宽度 * 图片高度 * 一个像素字节数(4)
+
+  利用一个1000*1000像素的图片，默认加载后大小为4M。
+
+- 一个像素所占字节数
+
+  ```java
+  Bitmap.Config.RGB_565; // Glide用2字节
+  Bitmap.Config.RGB_888; // 默认4字节
+  ```
+
+- 图片压缩方法
+
+  质量压缩、采样率压缩。
+
+#### 2. 加载大图
+
+缩放大图宽高
+
+```java
+//1. 仅仅获取图片宽高
+BitmapFactory.Options options = new Options();
+options.inJustDecodeBounds = true;
+BitmapFactory.decodeResource(getResources(), R.drawable.bigpicture, options);
+int outHeight = options.outHeight;
+int outWidth = options.outWidth;
+//2. 计算缩放参数
+options.inSampleSize = 2; // 缩小一倍
+```
+
+#### 3. 展示巨图局部
+
+通过`BitmapRegionDecoder`只读取对应显示矩形框图大小。
+
+```java
+InputStream inputStream = getResources().getAssets().open("bigpicture.jpg");
+            BitmapRegionDecoder regionDecoder = BitmapRegionDecoder.newInstance(inputStream, false);
+            int measuredHeight = view.getMeasuredHeight();
+            int measuredWidth = view.getMeasuredWidth();
+            Rect rect = new Rect(0, 0, measuredWidth, measuredHeight);
+            Bitmap bitmap = regionDecoder.decodeRegion(rect, new Options());
+            view.setImageBitmap(bitmap);
+
+```
+
+#### 4. 滑动显示巨图
+
+同上，通过移动距离 动态调整矩形框大小。
+
+1. 在 onMeasure 中拿到测量后的大小，设置给 Rect
+2. 在 onTouchEvent() 方法中，计算滑动的距离，然后设置给 Rect
+3. 设置了新的显示区域以后，调用 invalidate() 方法， 请求绘制，这时候会调用 onDraw() 方法
+4. 在 onDraw() 方法中根据 Rect 拿到需要显示的局部 Bitmap， 通过 Canvas 绘制回来。
+
+#### 5. 缩放移动地图(zoom pan)
+
+**要点：**
+
+- 实现View，重写measure，layout，draw过程
+- 将整个Bitmap分割成很多方块
+- 使用BitmapRegionDecoder来区间加载这些小的Bitmap，铺满整个屏幕
+- 以屏幕的左上角为原点，用户移动的时候，控制图片的Translate,映射Bitmap内容到屏幕上去
+
+[参考 subsampling-scale-image-view](https://github.com/davemorrissey/subsampling-scale-image-view)
 
 
 
