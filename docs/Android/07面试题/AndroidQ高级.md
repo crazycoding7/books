@@ -2,43 +2,7 @@
 
 [TOC]
 
-### 一、概念理解
-
-#### 1. 响应式编程(react programming)理解
-
-[参考](https://www.jianshu.com/p/c95e29854cb1/)
-
-**Ks题目**
-
-（可多选）关于响应式编程(react programming)描述正确的是：B C
-（A）使用 facebook 开源的 react native 写代码，实现跨平台的方案
-（B）响应式编程是使用异步数据流进行编程
-（C）RxJava就是一种用Java语言实现的响应式编程
-（D）LiveData、ViewModel是实现响应式编程的方案之一
-
-**概念**
-
-**总结起来，响应式编程（reactive programming）是一种基于数据流（data stream）和变化传递（propagation of change）的声明式（declarative）的编程范式。响应式编程是一种通过异步和数据流来构建事物关系的编程模式。**
-
-响应式编程的“变化传递”就相当于果汁流水线的管道；在入口放进橙子，出来的就是橙汁；放西瓜，出来的就是西瓜汁，橙子和西瓜、以及机器中的果肉果汁以及残渣等，都是流动的“数据流”；管道的图纸是用“声明式”的语言表示的。
-
-这种编程范式如何让Web应用更加“reactive”呢？
-
-我们设想这样一种场景，我们从底层数据库驱动，经过持久层、服务层、MVC层中的model，到用户的前端界面的元素，全部都采用声明式的编程范式，从而搭建一条能够传递变化的管道，这样我们只要更新一下数据库中的数据，用户的界面上就相应的发生变化，岂不美哉？尤其重要的是，一处发生变化，我们不需要各种命令式的调用来传递这种变化，而是由搭建好的“流水线”自动传递。
-
-这种场景用在哪呢？比如一个日志监控系统，我们的前端页面将不再需要通过“命令式”的轮询的方式不断向服务器请求数据然后进行更新，而是在建立好通道之后，数据流从系统源源不断流向页面，从而展现实时的指标变化曲线；再比如一个社交平台，朋友的动态、点赞和留言不是手动刷出来的，而是当后台数据变化的时候自动体现到界面上的。
-
-#### 2. Rxjava LiveData思考
-
-[参考](https://www.sohu.com/a/279237108_659256)
-
-#### 3. 协程思考
-
-[参考](https://blog.csdn.net/zheng199172/article/details/88800275)
-
-[quasar](https://www.cnblogs.com/ConstXiong/p/11991459.html)
-
-#### 4. Gradle构建流程
+### 1. Gradle构建流程
 
 ```java
 
@@ -233,12 +197,41 @@
 
 ```
 
+### 2. Android打包流程
 
+- 利用aapt打包资源文件，生成R.java和resources.ap_文件(包括assert、res/raw、清单文件、res目录)。将所有资源与编译生成的resource.arsc文件以及"加密"过的AndroidManifest.xml打包压缩成resources.ap_文件；
 
-### 二、开源项目设计
+- 处理AIDL文件，生成相应的.java文件；
 
-#### 1. Arouter
+- 编译工程源代码，生成相应的class文件。处理文件包括src、R.java、AIDL生成的java文件、库jar文件，调用javac编译生成；
 
+- 转换所有的class文件，生成class。dex文件。使用dx工具将字节码文件转换为dalvik字节码。
 
+- 打包生成apk，利用apkbuilder工具；
 
-#### 2. Retrofit
+- 对apk进行签名；
+
+- 对签名后的apk进行对齐处理(zipalign)。
+
+  这一步需要使用的工具为zipalign，它的主要工作是将apk包进行对齐处理，使apk包中的所有资源文件距离文件起始偏移为4字节的整数倍，这样通过内存映射访问apk时的速度会更快，验证apk文件是否对齐过的工作由ZipAlign.cpp文件的 `verify()`函数完成，处理对齐的工作则由`process()`函数完成。
+
+<img src="/Users/xin/books/docs/Android/07面试题/images/android_build_apk.png" style="zoom:80%;" />
+
+### 3. APK安装流程
+
+- APK安装涉及目录
+
+  1. system/app：系统自带的应用程序，需要root权限才能删除；
+  2. data/app：用户程序安装目录，安装时会把apk复制到此目录下；
+  3. data/data/：存放应用程序的数据；
+  4. data/dalvik-cache：将apk中的dex文件安装到该目录下。
+
+- 流程
+
+  （1）拷贝apk到指定的目录：默认情况下，用户安装的apk首先会拷贝到/data/app下，用户有访问/data/app目录的权限，但系统出厂的apk文件会被放到/system分区下，包括/system/app，/system/vendor/app，以及/system/priv-app等，该分区需要root权限的用户才能访问。
+  （2）加载apk、拷贝文件、创建应用的数据目录：为了加快APP的启动速度，apk在安装的时候，会首先将APP的可执行文件（dex）拷贝到/data/dalvik-cache目录下，缓存起来。再在/data/data/目录下创建应用程序的数据目录（以应用包名命令），用来存放应用的数据库、xml文件、cache、二进制的so动态库等。
+  （3）解析apk的AndroidManifest.xml文件：在安装apk的过程中，会解析apk的AndroidManifest.xml文件，将apk的权限、应用包名、apk的安装位置、版本、userID等重要信息保存在/data/system/packages.xml文件中。这些操作都是在**PackageManagerService**中完成
+  的。
+  （4）显示icon图标：应用程序经过PMS中的逻辑处理后，相当于已经注册好了，如果想要在Android桌面上看到icon图标，则需要Launcher将系统中已经安装的程序展现在桌面上。
+
+- .
