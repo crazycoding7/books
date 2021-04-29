@@ -6,6 +6,8 @@
 
 ​	Glide是一个高效的Android图片加载库，注重平滑的滚动。
 
+![](./images/glide_cache.png)
+
 - 优点
 ##### **生命周期集成**;
 

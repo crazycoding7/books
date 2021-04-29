@@ -2,7 +2,7 @@
 
 [TOC]
 
-### 一、基本数据类型相关
+## 一、基本数据类型相关
 
 #### 1. 常量池
 
@@ -663,3 +663,52 @@ HTTP/2有三大特性：头部压缩、Server Push、多路复用。
 如果TCP窗口缩放被禁用，那宽带延迟积效应可能会限制连接的吞吐量。
 丢包时，TCP拥塞窗口会缩小。
 
+## 二、Jvm
+
+### 1. 类加载机制
+
+[参考](https://blog.csdn.net/xinlingchengbao/article/details/88376479)
+
+### 2. 反射机制
+
+**流程：**
+
+1. 获取当前调用类的classloader；
+
+2. 调用native检查权限是否合法；
+
+3. 然后jvm回调javac层ClassLoader进行类加载；
+
+4. 利用双亲委派模式加载class(`loadclass()`)。
+
+    newInstance() 主要做了三件事：
+
+   　　1. 权限检测，如果不通过直接抛出异常；
+
+   　　2. 查找无参构造器，并将其缓存起来；
+
+   　　3. 调用具体方法的无参构造方法，生成实例并返回；
+
+```java
+  // demo
+	// 1. 使用外部配置的实现，进行动态加载类
+  TempFunctionTest test = (TempFunctionTest)Class.forName("com.tester.HelloReflect").newInstance();
+  test.sayHello("call directly");
+  // 2. 根据配置的函数名，进行方法调用（不需要通用的接口抽象）
+  Object t2 = new TempFunctionTest();
+  Method method = t2.getClass().getDeclaredMethod("sayHello", String.class);
+  method.invoke(test, "method invoke");
+```
+
+[参考](https://www.cnblogs.com/yougewe/p/10125073.html)
+
+### 3. 注解的类型和原理
+
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.SOURCE)
+public @interface Override {
+}
+```
+
+[参考](https://www.runoob.com/w3cnote/java-annotation.html)

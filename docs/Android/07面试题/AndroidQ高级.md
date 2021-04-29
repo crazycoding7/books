@@ -215,7 +215,7 @@
 
   这一步需要使用的工具为zipalign，它的主要工作是将apk包进行对齐处理，使apk包中的所有资源文件距离文件起始偏移为4字节的整数倍，这样通过内存映射访问apk时的速度会更快，验证apk文件是否对齐过的工作由ZipAlign.cpp文件的 `verify()`函数完成，处理对齐的工作则由`process()`函数完成。
 
-<img src="/Users/xin/books/docs/Android/07面试题/images/android_build_apk.png" style="zoom:80%;" />
+<img src="./images/android_build_apk.png" style="zoom:80%;" />
 
 ### 3. APK安装流程
 
