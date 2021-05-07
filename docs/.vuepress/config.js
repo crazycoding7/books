@@ -40,11 +40,12 @@ module.exports = {
         ]
       },
       {
-        title: '文章',
+        title: '投名状',
         path: '',      // 可选的, 应该是一个绝对路径
         collapsable: false, // 可选的, 默认值是 true,
         children: [
-            '/ppt/警世通言.md'
+            '/ppt/警世通言.md',
+            '/ppt/1.阿里技术合伙人.md',
         ]
       }
     ] 
