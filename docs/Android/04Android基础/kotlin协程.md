@@ -337,6 +337,37 @@ val request = Request.Builder().url("http://www.baidu.com").build()
 
 
 
+#### 3. Suspend、Async&await区别
+
+​    Async&await用来处理异步:
+
+```kotlin
+coroutineScope.launch(Dispatchers.IO) {
+	val a = async{ getUserInfo() }  // 创建协程 闭包，返回Deferred对象
+	val userInfo = a.await()        // 执行协程闭包
+}
+```
+
+Suspend暂停挂起(修饰函数)：
+
+```java
+fun init() {
+	coroutineScope.launch {
+		val userInfo = getUserInfo()
+		tv_name.text = userInfo.name
+	}
+}
+
+// 请求用户信息 用suspend修饰的函数会切换的对应线程执行，如何再切回主协程
+suspend fun getUserInfo(): UserInfo {
+	return withContext(Dispatchers.IO){
+		...
+	}
+}
+```
+
+
+
 
 
 

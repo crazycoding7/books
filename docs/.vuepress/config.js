@@ -22,12 +22,14 @@ module.exports = {
         ]
       },
       {
-        title: '业务功能',   // 必要的
+        title: '操作系统等',   // 必要的
         path: '',      // 可选的, 应该是一个绝对路径
         collapsable: false, // 可选的, 默认值是 true,
         sidebarDepth: 1,    // 可选的, 默认值是 1
         children: [
-            '/业务功能设计/1.设计流畅的图片展示.md'
+            '/操作系统等/C编译原理.md',
+            '/操作系统等/Linux常用操作手册.md',
+            '/操作系统等/IOS.md'
         ]
       },
        {
