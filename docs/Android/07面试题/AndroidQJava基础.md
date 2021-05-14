@@ -592,7 +592,7 @@ public static void main(String[] args) {
 
 ![](images/connection_concurrenthashmap.jpg)
 
-### 30. 多读少写并发场景使用的数据结构？
+### 30. 多读少写并发场景使用的数据结构CopyOnWriteArrayList？
 
 CopyOnWriteArrayList、CopyOnWriteMap处理这种场景用的。
 
