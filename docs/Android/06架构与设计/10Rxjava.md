@@ -1,8 +1,10 @@
-## Rxjava
+# Rxjava
 
 [TOC]
 
-### 一、简介
+## 一、简介
+
+### 1. 概念
 
 ​	Reactive Extensions(简称ReactiveX)是对**响应式编程**理念的一个实现。它最初是由微软的一个团队所开发的响应式扩展库（Reactive Extensions libraray，Rx），随后越来流行，目前已经支持了几乎全部的流行编程语言。
 
@@ -11,6 +13,22 @@
 >  一个词：**异步**。 组成部分 ：`Observable` (可观察者，即被观察者)、 `Observer` (观察者)、 `subscribe` (订阅)、事件。`Observable` 和 `Observer` 通过 `subscribe()` 方法实现订阅关系，从而 `Observable` 可以在需要的时候发出事件来通知 `Observer`。
 
 RxJava 在 GitHub 主页上的自我介绍是 "a library for composing asynchronous and event-based programs using observable sequences for the Java VM"（一个在 Java VM 上使用可观测的序列来组成异步的、基于事件的程序的库）。这就是 RxJava ，概括得非常精准。
+
+### 2. 核心
+
+<img src="./images/rx流程图.png" style="zoom:80%;" />
+
+**变异的观察者模式：**
+
+1. 标准观察者设计模式：
+
+   多个观察者，一个被观察者，注册多次，需要自己主动产生事件并通知观察者。
+
+2. RxJava的变种模式：
+
+   一个观察者，多个被被观察者，注册一次(注册完毕立即分发事件)。
+
+## 二、使用
 
 ```java
  private fun testRx() {
@@ -93,4 +111,6 @@ E/MainActivityCoroutine: observer onComplete()
   [给 Android 开发者的 RxJava 详解](https://gank.io/post/560e15be2dca930e00da1083)
   
   [RxJava使用场景](https://blog.csdn.net/theone10211024/article/details/50435325)
+  
+  [学习视频](https://www.bilibili.com/video/av711415013)
 

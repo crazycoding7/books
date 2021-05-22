@@ -712,3 +712,12 @@ public @interface Override {
 ```
 
 [参考](https://www.runoob.com/w3cnote/java-annotation.html)
+
+
+
+## 三、多线程
+
+### 1. wait/notify/notifyAll区别？
+
+[参考-对象锁 ](https://www.jianshu.com/p/25e243850bd2?appinstall=0)
+
