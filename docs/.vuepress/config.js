@@ -18,7 +18,8 @@ module.exports = {
             '/Android/01基础机制/2.Binder进程通信机制.md',
             '/Android/07面试题/1.面试题-计算机基础.md',
             '/Android/07面试题/2.面试题-Android.md',
-            '/Android/07面试题/3.面试题-架构设计.md'
+            '/Android/07面试题/3.面试题-架构设计.md',
+            '/Android/07面试题/4.面试-业务实战.md'
         ]
       },
       {
@@ -48,6 +49,7 @@ module.exports = {
         children: [
             '/ppt/警世通言.md',
             '/ppt/1.阿里技术合伙人.md',
+            '/ppt/2.企业家-雷军.md'
         ]
       }
     ] 
