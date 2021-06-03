@@ -48,6 +48,7 @@ module.exports = {
         collapsable: false, // 可选的, 默认值是 true,
         children: [
             '/ppt/警世通言.md',
+            '/skills/职场-职业全能竞争力.md',
             '/ppt/1.阿里技术合伙人.md',
             '/ppt/2.企业家-雷军.md'
         ]
