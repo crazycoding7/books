@@ -14,8 +14,6 @@ module.exports = {
         collapsable: false, // 可选的, 默认值是 true,
         sidebarDepth: 1,    // 可选的, 默认值是 1
         children: [
-            '/Android/01基础机制/1.Android系统启动流程',
-            '/Android/01基础机制/2.Binder进程通信机制.md',
             '/Android/07面试题/1.面试题-计算机基础.md',
             '/Android/07面试题/2.面试题-Android.md',
             '/Android/07面试题/3.面试题-架构设计.md',
