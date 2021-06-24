@@ -9,7 +9,7 @@ module.exports = {
     ],
     sidebar: [
       {
-        title: 'Android基础',   // 必要的
+        title: 'Android',   // 必要的
         path: '',      // 可选的, 应该是一个绝对路径
         collapsable: false, // 可选的, 默认值是 true,
         sidebarDepth: 1,    // 可选的, 默认值是 1
@@ -21,14 +21,14 @@ module.exports = {
         ]
       },
       {
-        title: '操作系统等',   // 必要的
+        title: '计算机基础',   // 必要的
         path: '',      // 可选的, 应该是一个绝对路径
         collapsable: false, // 可选的, 默认值是 true,
         sidebarDepth: 1,    // 可选的, 默认值是 1
         children: [
-            '/操作系统等/C编译原理.md',
-            '/操作系统等/Linux常用操作手册.md',
-            '/操作系统等/IOS.md'
+            '/计算机基础/操作系统/C编译原理.md',
+            '/计算机基础/操作系统/Linux常用操作手册.md',
+            '/计算机基础/操作系统/IOS.md'
         ]
       },
        {
