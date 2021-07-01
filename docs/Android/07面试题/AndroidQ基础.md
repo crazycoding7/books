@@ -132,7 +132,7 @@
 
 ##### 3. java虚拟机和Dalvik虚拟机和ART区别？
 
-[查看](android/100qaAndroid基础.md)
+[查看](https://www.jianshu.com/p/713d24fa9982)
 
 ##### 4. 讲解一下Context？
 
