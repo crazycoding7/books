@@ -123,8 +123,6 @@
 
    
 
-<img src="/Users/xin/AndroidBlogs/android/06架构与设计/images/glide_cache.png" style="zoom:80%;" />
-
 ##### **多种图片格式的缓存，支持GIF、缩略图等。**
 
 - ARGB_8888 :32位图,带透明度,每个像素占4个字节
@@ -531,6 +529,8 @@ public class LargeImageView extends View
 - 参考
 
 [设计图片加载框架](https://juejin.im/post/5dbeda27e51d452a161e00c8)
+
+[Cache原理讲解!!!](https://www.cnblogs.com/sihaixuan/p/10925585.html)
 
 [生命周期和缓存机制](https://www.cnblogs.com/billshen/p/13306285.html)
 
