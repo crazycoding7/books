@@ -88,6 +88,56 @@
 7）解绑绑定Service服务
 `unbindService() —> onUnbind(ture) —> bindService() —> onRebind()`
 
+##### 3. Fragment生命周期？与Activity关系？
+
+<img src="./images/fragment_lifecycle__new.png"  style="zoom:50%;" />
+
+- Activity 嵌套Fragment混合生命周期？
+
+```java
+//1. 静态Fragment生命周期 (除了Resume外其他都是先执行)
+2021-07-07 14:54:14.204 32237-32237/com.alex.mykotlintest E/MyFragment---: onAttach
+2021-07-07 14:54:14.204 32237-32237/com.alex.mykotlintest E/MyFragment---: onCreate
+2021-07-07 14:54:14.205 32237-32237/com.alex.mykotlintest E/MyFragment---: onCreateView
+2021-07-07 14:54:14.209 32237-32237/com.alex.mykotlintest E/MyFragment---: onViewCreated
+2021-07-07 14:54:14.210 32237-32237/com.alex.mykotlintest E/MainActivity: onCreate
+2021-07-07 14:54:14.215 32237-32237/com.alex.mykotlintest E/MyFragment---: onActivityCreated
+2021-07-07 14:54:14.217 32237-32237/com.alex.mykotlintest E/MyFragment---: onStart
+2021-07-07 14:54:14.218 32237-32237/com.alex.mykotlintest E/MainActivity: onStart
+2021-07-07 14:54:14.222 32237-32237/com.alex.mykotlintest E/MainActivity: onResume(!先与f执行)
+2021-07-07 14:54:14.223 32237-32237/com.alex.mykotlintest E/MyFragment---: onResume
+2021-07-07 14:54:27.472 32237-32237/com.alex.mykotlintest E/MyFragment---: onPause
+2021-07-07 14:54:27.474 32237-32237/com.alex.mykotlintest E/MainActivity: onPause
+2021-07-07 14:54:28.190 32237-32237/com.alex.mykotlintest E/MyFragment---: onStop
+2021-07-07 14:54:28.192 32237-32237/com.alex.mykotlintest E/MainActivity: onStop
+2021-07-07 14:54:28.205 32237-32237/com.alex.mykotlintest E/MyFragment---: onDestroyView
+2021-07-07 14:54:28.215 32237-32237/com.alex.mykotlintest E/MyFragment---: onDestroy
+2021-07-07 14:54:28.219 32237-32237/com.alex.mykotlintest E/MainActivity: onDestroy
+  
+//2. 动态Fragment生命周期（先执行Activity onCreate）  
+ 2021-07-07 16:18:55.494 16039-16039/com.alex.mykotlintest E/MainActivity: onCreate
+2021-07-07 16:18:55.505 16039-16039/com.alex.mykotlintest E/MyFragment---: onAttach
+2021-07-07 16:18:55.505 16039-16039/com.alex.mykotlintest E/MyFragment---: onCreate
+2021-07-07 16:18:55.511 16039-16039/com.alex.mykotlintest E/MyFragment---: onViewCreated
+2021-07-07 16:18:55.515 16039-16039/com.alex.mykotlintest E/MyFragment---: onActivityCreated
+2021-07-07 16:18:55.518 16039-16039/com.alex.mykotlintest E/MyFragment---: onStart
+2021-07-07 16:18:55.519 16039-16039/com.alex.mykotlintest E/MainActivity: onStart
+2021-07-07 16:18:55.524 16039-16039/com.alex.mykotlintest E/MainActivity: onResume
+2021-07-07 16:18:55.525 16039-16039/com.alex.mykotlintest E/MyFragment---: onResume
+
+2021-07-07 16:19:06.416 16039-16039/com.alex.mykotlintest E/MyFragment---: onPause
+2021-07-07 16:19:06.418 16039-16039/com.alex.mykotlintest E/MainActivity: onPause
+2021-07-07 16:19:07.047 16039-16039/com.alex.mykotlintest E/MyFragment---: onStop
+2021-07-07 16:19:07.049 16039-16039/com.alex.mykotlintest E/MainActivity: onStop
+2021-07-07 16:19:07.060 16039-16039/com.alex.mykotlintest E/MyFragment---: onDestroyView
+2021-07-07 16:19:07.068 16039-16039/com.alex.mykotlintest E/MyFragment---: onDestroy
+2021-07-07 16:19:07.071 16039-16039/com.alex.mykotlintest E/MainActivity: onDestroy
+```
+
+<img src="./images/fragment_static_life.png" style="zoom:80%;" />
+
+
+
 ##### 3.  onResume中可以直接调用getHeight获取高度信息吗(ks)？
 
 ​	不可以。调用的时候还未开始测量UI。
@@ -122,14 +172,6 @@
 }        
 ```
 
-
-
-
-
-
-
-
-
 ##### 3. java虚拟机和Dalvik虚拟机和ART区别？
 
 [查看](https://www.jianshu.com/p/713d24fa9982)
@@ -145,6 +187,19 @@ ContextWrapper有三个直接子类，ContextThemeWrapper(Activity继承)、Serv
 Context一共三种类型：Application、Service和Activity，绝大多数情况下是通用的。
 
 Context数量=Activity数量+Service数量+1(Application)
+
+- Application中的Context和Activity中的Context各自的使用场景 
+
+  <img src="./images/context_diff.png" style="zoom:80%;" />
+
+```java
+// application 如何启动activity??
+// 报错 ： android.util.AndroidRuntimeException: Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag. Is this really what you want?
+Intent intent = new Intent(this, MainActivity.class);
+intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+startActivity(intent);
+解决方法：为activity开启新的栈，Intent.FLAG_ACTIVITY_NEW_TASK 设置状态，首先查找是否存在和被启动的Activity具有相同的任务栈，如果有则直接把这个栈整体移到前台，并保持栈中的状态不变，既栈中的activity顺序不变，如果没有，则新建一个栈来存放被启动的Activity。
+```
 
 ##### 5. 四种LaunchMode及其使用场景？
 
@@ -167,6 +222,20 @@ Context数量=Activity数量+Service数量+1(Application)
   在一个新栈中创建该Activity的实例，并让多个应用共享该栈中的该Activity实例(新栈中只有它一个实例)。
 
   如呼叫来电、闹铃提醒。
+  
+  [参考](https://blog.csdn.net/u010897392/article/details/52038362)
+  
+  > ### singleInstance
+  >
+  > 这个模式才是重点，也是比较容易入坑的一种启动模式。字面上理解为单一实例。它具备所有singleTask的特点，唯一不同的是，它是存在于另一个任务栈中。上面的三种模式都存在于同一个任务栈中，而这种模式则是存在于另一个任务栈中。举个例子，上面的启动模式都存在于地球上，而这种模式存在于火星上。整个Android系统就是个宇宙。下面来详细介绍一下singleInstance的坑。
+  >
+  > #### singleInstance之一坑
+  >
+  > 此时有三个activity，ActivityA，ActivityB，ActivityC，除了ActivityB的启动模式为singleInstance，其他的启动模式都为默认的。startActivity了一个ActivityA，在ActivityA里startActivity了一个ActivityB，在ActivityB里startActivity了一个ActivityC。此时在当前的任务栈中的顺序是，ActivityA->ActivityB->ActivityC。照理来说在当前ActivityC页面按返回键，finish当前界面后应当回到ActivityB界面。但是事与愿违，奇迹出现了，页面直接回到了ActivityA。这是为什么呢？其实想想就能明白了，上面已经说过，singleInstance模式是存在于另一个任务栈中的。也就是说ActivityA和ActivityC是处于同一个任务栈中的，ActivityB则是存在另个栈中。所以当关闭了ActivityC的时候，它自然就会去找当前任务栈存在的activity。当前的activity都关闭了之后，才会去找另一个任务栈中的activity。也就是说当在ActivityC中finish之后，会回到ActivityA的界面，在ActivityA里finish之后会回到ActivityB界面。如果还想回到ActivityB的页面怎么办呢？我的做法是，在ActivityB定义一个全局变量，public static boolean returnActivityB;界面需要跳转的时候将returnActivityB=true;然后在ActivityA界面onstart方法里判断returnActivityB是否为true，是的话就跳转到ActivityB，同时将returnActivityB=false;这样就能解决跳转的问题了。不过感觉还不是很好，如果有更好的方法，欢迎大家给我留言告诉我一声。
+  >
+  > #### singleInstance之二坑
+  >
+  > 此时有两个个activity，ActivityA，ActivityB，ActivityA的启动模式为默认的，ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了ActivityB，当前页面为ActivityB。按下home键。应用退到后台。此时再点击图标进入APP，按照天理来说，此时的界面应该是ActivityB，可是奇迹又出现了，当前显示的界面是ActivityA。这是因为当重新启动的时候，系统会先去找主栈（我是这么叫的）里的activity，也就是APP中LAUNCHER的activity所处在的栈。查看是否有存在的activity。没有的话则会重新启动LAUNCHER。要解决这个方法则是和一坑的解决办法一样，在ActivityB定义一个全局变量，public static boolean returnActivityB;在oncreat方法将returnActivityB=true;然后在ActivityA界面onstart方法里判断returnActivityB是否为true，是的话就跳转到ActivityB，同时将returnActivityB=false;这样就能解决跳转的问题了。
 
 ##### 6. Android动画种类和实现？
 
@@ -580,6 +649,12 @@ RecycleBin机制。
 - 6.0
 
   1. 动态权限管理。
+
+##### 23. 主线程进行 Thread.Sleep()会导致ANR吗
+
+可能会，也可能不会。当主线程在 Sleep 的时候，如果 UI线程不需要进行操作，也就是说没有消息会发送给UI线程并要求UI线程进行处理的时候 Sleep 30秒就不会导致ANR，因为没有 出现 **ANR(应用没有响应)**的情况啊，没有人向线程请求什么东西，也就不需要响应了，既然没有响应了，那怎么会有ANR呢？
+
+但是，但线程在Sleep的时候，主线程有接收到需要处理的请求的时候。
 
 ### 1. 基础机制
 

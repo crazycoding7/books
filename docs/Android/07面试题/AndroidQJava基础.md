@@ -458,6 +458,24 @@ sync使用简单，无序担心忘记手动解锁，加锁解锁是隐式的，�
 
    ### 23. 线程池理解？
 
+**四种创建方式：**
+
+```java
+//1. 单线程池，同时只有一个线程在跑.
+ExecutorService service1 = Executors.newSingleThreadExecutor();
+//2. 固定大小的线程池.
+ExecutorService service2 = Executors.newFixedThreadPool(3);
+//3. 回收型线程池，可以重复利用之前创建过的线程，运行线程最大数是Integer.MAX_VALUE.
+ExecutorService service3 = Executors.newCachedThreadPool();
+//4. 实现循环或延迟任务
+ScheduledExecutorService service = Executors.newScheduledThreadPool(1, new ThreadFactory() {
+  @Override
+  public Thread newThread(Runnable r) {
+    return null;
+  }
+});
+```
+
 **好处：**
 
 第一：降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。

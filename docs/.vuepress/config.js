@@ -1,5 +1,5 @@
 module.exports = {
-  title: '知鱼之乐@Android',
+  title: '知鱼之乐@技术',
   description: 'Just playing around 1',
   themeConfig: {
     nav: [
