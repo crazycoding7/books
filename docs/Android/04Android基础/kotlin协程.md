@@ -35,6 +35,8 @@
 
 #### 2. 原理	
 
+> **suspend**修饰的函数编译时会添加一个Continuation的参数，在执行成功后失败后调用onResume方法，协程本身也是一个回调。
+
 ```java
 public fun CoroutineScope.launch(
     context: CoroutineContext = EmptyCoroutineContext,// 上下文
@@ -47,6 +49,21 @@ public fun CoroutineScope.launch(
         StandaloneCoroutine(newContext, active = true)
     coroutine.start(start, coroutine, block)
     return coroutine
+}
+// java调用suspend函数实现
+LaunchCoroutineKt.getHtml(new Continuation<String>){
+  @Override
+  public CoroutineContext getContext(){
+    return HandlerContextKt.getUI();
+  }
+  @Override
+  public void resume(String s){
+    
+  }
+  @Override
+  public void resumeWithException(Throwable throwable){
+    
+  }
 }
 ```
 
@@ -100,9 +117,11 @@ E/MainActivityCoroutine: runBlocking. 完成.
 E/MainActivityCoroutine: startCoroutineType(). main
 ```
 
+##### 2. 如何实现线程切换的
 
+[参考](https://www.jb51.net/article/217105.htm)
 
-##### 2. 其他
+##### 3. 其他
 
 它们在某些 [CoroutineScope](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html) 上下文中与 [launch](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/launch.html) *协程构建器* 一起启动。 这里我们在 [GlobalScope](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-global-scope/index.html) 中启动了一个新的协程，这意味着新协程的生命周期只受整个应用程序的生命周期限制。
 
